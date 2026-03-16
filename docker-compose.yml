@@ -1,0 +1,66 @@
+services:
+  superlinked:
+    build:
+      context: ./docker/superlinked
+      dockerfile: Dockerfile
+    image: permission-search-superlinked:latest
+    container_name: permission-search-superlinked
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: permission-search-api:latest
+    container_name: permission-search-api
+    depends_on:
+      superlinked:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      ADDR: ":8080"
+      DB_PATH: "/app/data/demo.db"
+      DEMO_TIME_ANCHOR: "2025-02-15T00:00:00Z"
+      SEMANTIC_PROVIDER: "slm-superlinked"
+      IDENTIFIER_FAST_PATH_ENABLED: "true"
+      IDENTIFIER_GROUPED_RESPONSE_ENABLED: "true"
+      SUPERLINKED_ENDPOINT: "http://superlinked:8081"
+      SUPERLINKED_TIMEOUT_MS: "1500"
+      SUPERLINKED_MODE: "gated"
+      SUPERLINKED_MIN_CONFIDENCE: "0.55"
+      SUPERLINKED_MAX_LATENCY_MS: "120"
+      SUPERLINKED_TOPK: "100"
+      SUPERLINKED_POST_MERGE_CAP: "300"
+      OLLAMA_ENDPOINT: "http://host.docker.internal:11434"
+      OLLAMA_MODEL: "llama3.2:latest"
+      OLLAMA_TIMEOUT_MS: "1500"
+    volumes:
+      - ./data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/api/me"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  ui:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE: "http://localhost:8080"
+    image: permission-search-ui:latest
+    container_name: permission-search-ui
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "3000:3000"

@@ -1,0 +1,13 @@
+{
+  "mode": "hybrid_gated",
+  "minConfidence": 0.5,
+  "maxLatencyMs": 150,
+  "topKVector": 120,
+  "topKLexical": 120,
+  "fusionCap": 300,
+  "weights": {
+    "identifier": 0.2,
+    "lexical": 0.35,
+    "vector": 0.45
+  }
+}

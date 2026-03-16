@@ -1,0 +1,29 @@
+{
+  "tenants": {
+    "default": [
+      { "name": "ord_default", "type": "order_number", "regex": "(?i)\\bORD-\\d{5,8}\\b" },
+      { "name": "trk_default", "type": "tracking_id", "regex": "(?i)\\bTRK-\\d{6,10}\\b" },
+      { "name": "pay_default", "type": "payment_reference", "regex": "(?i)\\bPAY-\\d{6,10}\\b" },
+      { "name": "cust_default", "type": "customer_number", "regex": "(?i)\\bCUST-\\d{5,8}\\b" },
+      { "name": "email_default", "type": "email", "regex": "(?i)\\b[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}\\b" },
+      { "name": "phone_default", "type": "phone", "regex": "\\+?\\d[\\d\\s\\-()]{7,}\\d" },
+      { "name": "pix_pattern", "type": "order_number", "regex": "(?i)\\bPIX-[A-Z]{3}-\\d+\\b" },
+      { "name": "efl_pattern", "type": "order_number", "regex": "(?i)\\bEFL-[A-Z]{3}-\\d+\\b" },
+      { "name": "prefixed_numeric", "type": "order_number", "regex": "(?i)\\b[a-z]\\d{6,}\\b" },
+      { "name": "numeric_long", "type": "order_number", "regex": "\\b\\d{6,}\\b" }
+    ],
+    "tenant-a": [
+      { "name": "ord_default", "type": "order_number", "regex": "(?i)\\bORD-\\d{5,8}\\b" },
+      { "name": "trk_default", "type": "tracking_id", "regex": "(?i)\\bTRK-\\d{6,10}\\b" },
+      { "name": "pay_default", "type": "payment_reference", "regex": "(?i)\\bPAY-\\d{6,10}\\b" },
+      { "name": "cust_default", "type": "customer_number", "regex": "(?i)\\bCUST-\\d{5,8}\\b" },
+      { "name": "pix_pattern", "type": "order_number", "regex": "(?i)\\bPIX-[A-Z]{3}-\\d+\\b" },
+      { "name": "efl_pattern", "type": "order_number", "regex": "(?i)\\bEFL-[A-Z]{3}-\\d+\\b" },
+      { "name": "x_numeric_pattern", "type": "order_number", "regex": "(?i)\\bx\\d{6,}\\b" },
+      { "name": "f_numeric_pattern", "type": "order_number", "regex": "(?i)\\bf\\d{5,}\\b" },
+      { "name": "numeric_long", "type": "order_number", "regex": "\\b\\d{6,}\\b" },
+      { "name": "email_default", "type": "email", "regex": "(?i)\\b[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}\\b" },
+      { "name": "phone_default", "type": "phone", "regex": "\\+?\\d[\\d\\s\\-()]{7,}\\d" }
+    ]
+  }
+}

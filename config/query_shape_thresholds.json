@@ -1,0 +1,7 @@
+{
+  "shortNoOpLen": 2,
+  "genericPrefixMinLen": 3,
+  "idPrefixMinLen": 2,
+  "emailPrefixMinLen": 3
+}
+

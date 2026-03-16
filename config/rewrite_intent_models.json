@@ -1,0 +1,59 @@
+{
+  "providers": [
+    {
+      "id": "intent-rule",
+      "kind": "deterministic_rule",
+      "model": "deterministic-rule",
+      "timeoutMs": 200,
+      "minConfidence": 0.0
+    },
+    {
+      "id": "intent-ollama-qwen",
+      "kind": "ollama_local",
+      "model": "qwen2.5:7b-instruct",
+      "endpoint": "http://localhost:11434",
+      "timeoutMs": 2400,
+      "minConfidence": 0.55
+    },
+    {
+      "id": "intent-ollama-llama",
+      "kind": "ollama_local",
+      "model": "llama3.1:8b-instruct",
+      "endpoint": "http://localhost:11434",
+      "timeoutMs": 2600,
+      "minConfidence": 0.50
+    }
+  ],
+  "routes": [
+    {
+      "queryShape": "identifier_token",
+      "primaryProviderId": "intent-rule"
+    },
+    {
+      "queryShape": "contact_lookup",
+      "primaryProviderId": "intent-rule"
+    },
+    {
+      "queryShape": "typeahead_prefix",
+      "primaryProviderId": "intent-rule"
+    },
+    {
+      "queryShape": "unsupported_domain",
+      "primaryProviderId": "intent-rule"
+    },
+    {
+      "queryShape": "sentence_nl",
+      "primaryProviderId": "intent-ollama-qwen",
+      "fallbackProviderIds": ["intent-ollama-llama"]
+    },
+    {
+      "queryShape": "keyword_phrase",
+      "primaryProviderId": "intent-ollama-qwen",
+      "fallbackProviderIds": ["intent-ollama-llama"]
+    }
+  ],
+  "defaults": {
+    "primaryProviderId": "intent-ollama-qwen",
+    "fallbackProviderIds": ["intent-ollama-llama"]
+  }
+}
